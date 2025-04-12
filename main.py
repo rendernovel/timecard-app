@@ -199,7 +199,11 @@ class TimecardAppTestCase(unittest.TestCase):
         data = json.loads(response.data)
         self.assertIn('error', data)
 
+import os
+
 if __name__ == "__main__":
-    pass
+    port = int(os.environ.get("PORT", 10000))  # Render will set PORT env variable
+    app.run(host="0.0.0.0", port=port)
+
     
     

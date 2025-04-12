@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Timecard System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-4">
+            <h1>Employee Timecard System</h1>
+            <div id="current-time" class="display-4 my-3"></div>
+            <div id="current-date" class="h4 mb-4"></div>
+        </header>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h4 mb-0 text-center">Time Tracking</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="employee-select" class="form-label">Select Employee:</label>
+                            <select id="employee-select" class="form-select">
+                                <option value="" selected disabled>Choose employee...</option>
+                                <!-- Employee options will be populated dynamically -->
+                            </select>
+                        </div>
+
+                        <div id="status-display" class="alert alert-info text-center mb-4">
+                            <span id="status-message">Please select an employee to begin</span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button id="clock-in-btn" class="btn btn-success btn-lg" disabled>Clock In</button>
+                            <button id="break-start-btn" class="btn btn-warning btn-lg" disabled>Start Break</button>
+                            <button id="break-end-btn" class="btn btn-info btn-lg" disabled>End Break</button>
+                            <button id="clock-out-btn" class="btn btn-danger btn-lg" disabled>Clock Out</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow mt-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h3 class="h5 mb-0">Today's Activity</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul id="activity-log" class="list-group">
+                            <!-- Activity logs will be populated dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="h5 mb-0">Add New Employee</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="new-employee-form">
+                            <div class="mb-3">
+                                <label for="employee-name" class="form-label">Employee Name:</label>
+                                <input type="text" id="employee-name" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="employee-email" class="form-label">Email Address:</label>
+                                <input type="email" id="employee-email" class="form-control" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Add Employee</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-5 mb-3">
+            <p class="text-muted">Timecard System &copy; 2025</p>
+            <p class="text-muted small">Exports are automatically sent every Sunday at 6 PM</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/timecard.js') }}"></script>
+</body>
+</html>

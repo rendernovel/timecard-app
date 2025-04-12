@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details - Timecard System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1>Employee Timecard Details</h1>
+                    <h2 class="h4 text-muted">{{ employee.name }}</h2>
+                    <div id="current-time" class="display-4 my-2"></div>
+                    <div id="current-date" class="h4 mb-3"></div>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-1">Welcome, {{ current_user.username }}</p>
+                    <a href="{{ url_for('admin') }}" class="btn btn-outline-primary btn-sm">Back to Admin</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-sm ms-2">Logout</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="row">
+            <div class="col-md-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h4 mb-0">Employee Information</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>ID:</strong> {{ employee.id }}</p>
+                                <p><strong>Name:</strong> {{ employee.name }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Email:</strong> {{ employee.email }}</p>
+                                <p><strong>Created At:</strong> {{ employee.created_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h2 class="h4 mb-0">Timecard History (HST)</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if timecards %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Clock In</th>
+                                        <th>Clock Out</th>
+                                        <th>Status</th>
+                                        <th>Breaks</th>
+                                        <th>Total Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for timecard in timecards %}
+                                    <tr>
+                                        <td>{{ timecard.date }}</td>
+                                        <td>{{ timecard.clock_in or 'N/A' }}</td>
+                                        <td>{{ timecard.clock_out or 'N/A' }}</td>
+                                        <td>
+                                            {% if timecard.status == 'working' %}
+                                            <span class="badge bg-success">Working</span>
+                                            {% elif timecard.status == 'break' %}
+                                            <span class="badge bg-warning">On Break</span>
+                                            {% elif timecard.status == 'completed' %}
+                                            <span class="badge bg-secondary">Completed</span>
+                                            {% else %}
+                                            <span class="badge bg-secondary">{{ timecard.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if timecard.breaks %}
+                                                {% for break in timecard.breaks %}
+                                                <div>
+                                                    {{ break.start_time or 'N/A' }} - {{ break.end_time or 'N/A' }}
+                                                    {% if break.duration %}
+                                                    ({{ (break.duration * 60)|round|int }} min)
+                                                    {% endif %}
+                                                </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                No breaks
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ timecard.total_hours|round(2) if timecard.total_hours else 'N/A' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info">No timecard history found for this employee.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center mt-5 mb-3">
+            <p class="text-muted">Timecard System &copy; 2025</p>
+            <p class="text-muted small">All times displayed in Hawaii Standard Time (HST)</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize the application
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+
+        // Update the current date and time display
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format time: HH:MM:SS
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            
+            // Format date: Day, Month Date, Year
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Pacific/Honolulu' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            
+            $('#current-time').text(timeString);
+            $('#current-date').text(dateString + ' (HST)');
+        }
+    </script>
+</body>
+</html>

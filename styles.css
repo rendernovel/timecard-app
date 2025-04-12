@@ -1,0 +1,159 @@
+/* Timecard Application Styles */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+#current-time {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #343a40;
+}
+
+#current-date {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: none;
+}
+
+.card-header {
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+#status-display {
+    font-size: 1.1rem;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.status-working {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-break {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-off {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.btn {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+}
+
+.btn-lg {
+    margin-bottom: 0.75rem;
+}
+
+#clock-in-btn {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#break-start-btn {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+#break-end-btn {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+#clock-out-btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+#activity-log {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    padding: 0.75rem 1rem;
+    border-left: 4px solid #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+.activity-clock-in {
+    border-left-color: #28a745;
+}
+
+.activity-break-start {
+    border-left-color: #ffc107;
+}
+
+.activity-break-end {
+    border-left-color: #17a2b8;
+}
+
+.activity-clock-out {
+    border-left-color: #dc3545;
+}
+
+.activity-time {
+    font-weight: bold;
+    color: #495057;
+}
+
+.activity-description {
+    color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #current-time {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-lg {
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+/* Animation for status changes */
+@keyframes highlight {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.highlight {
+    animation: highlight 0.5s ease;
+}

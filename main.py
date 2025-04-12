@@ -3,7 +3,7 @@ import os
 import json
 import tempfile
 from datetime import datetime, timedelta
-from main import app, get_db
+
 
 class TimecardAppTestCase(unittest.TestCase):
     def setUp(self):
